@@ -1,3 +1,4 @@
+
 let addToy = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -50,7 +51,7 @@ function addToyCard(toyObject) {
   toyDiv.appendChild(img);
   // add likes
   let likeP = document.createElement("p");
-  likeP.textContent = toyObject.likes + " Likes";
+  likeP.textContent = toyObject.likes + " likes";
   toyDiv.appendChild(likeP);
   // add button
   let btn = document.createElement("button");
@@ -64,7 +65,7 @@ function addToyCard(toyObject) {
   toyDiv.querySelector(".like-btn").addEventListener("click", e => {
     // console.log(e);
     // console.log(likeP);
-    console.log(e.target.previousElementSibling.innerText.substring(0,1));
+    console.log(e.target.previousElementSibling.innerText);
     updateLikes(e);
   })
 
@@ -76,7 +77,29 @@ function addToyCard(toyObject) {
 }
 
 function updateLikes(e) {
-  let likeCount = Number(e.target.previousElementSibling.innerText.substring(0,1)) + 1;
+
+// e.preventDefault()
+// console.log(parseInt(e.target.previousElementSibling.innerText) + 1);
+// let more = parseInt(e.target.previousElementSibling.innerText) + 1
+
+// fetch(`http://localhost:3000/toys/${e.target.id}`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json"
+
+//     },
+//     body: JSON.stringify({
+//       "likes": more
+//     })
+//   })
+//   .then(res => res.json())
+//   .then((like_obj => {
+//     e.target.previousElementSibling.innerText = `${more} likes`;
+//   }))
+
+// }
+  let likeCount = parseInt(e.target.previousElementSibling.innerText) + 1;
   console.log(likeCount);
   fetch(`http://localhost:3000/toys/${e.target.id}`, {
     method: "PATCH",
@@ -90,7 +113,7 @@ function updateLikes(e) {
   })
   .then(res => res.json())
   .then(data => {
-    console.log(data);
+    e.target.previousElementSibling.innerText = `${likeCount} likes`;
   })
 }
 
